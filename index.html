@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💘</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 35px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+  position: relative;
+  width: 380px;
+  max-width: 92%;
+}
+
+h1, h2 {
+  color: #e63946;
+}
+
+.buttons {
+  margin-top: 25px;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+}
+
+#yes {
+  background: #e63946;
+  color: white;
+  margin-right: 15px;
+}
+
+#no {
+  background: #adb5bd;
+  color: white;
+  position: absolute;
+}
+
+.section {
+  display: none;
+  font-size: 18px;
+  color: #e63946;
+  line-height: 1.5;
+  transition: opacity 0.8s ease;
+}
+
+ul {
+  text-align: left;
+  color: #444;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.countdown {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #444;
+}
+
+/* Corazones */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 24px;
+  animation: floatUp 6s linear forwards;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* Beso */
+.kiss {
+  position: fixed;
+  font-size: 60px;
+  animation: kissPop 2.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes kissPop {
+  0% { transform: scale(0); opacity: 0; }
+  30% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.8) translateY(-80px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h1 id="question">
+    Nathaly Blanco,<br>
+    ¿quieres ser mi Valentine? 💖
+  </h1>
+
+  <div class="buttons" id="buttons">
+    <button id="yes">Sí ❤️</button>
+    <button id="no">No 💔</button>
+  </div>
+
+  <!-- MENSAJE PRINCIPAL -->
+  <div class="section" id="message">
+    💕 Lo sabía… 😍<br><br>
+    Desde que llegaste a mi vida, todo cambió para mejor.
+  </div>
+
+  <!-- RAZONES -->
+  <div class="section" id="reasons">
+    <h2>Razones por las que te amo</h2>
+    <ul>
+      <li>Porque tu sonrisa ilumina hasta mis días más grises</li>
+      <li>Porque tu voz me da paz</li>
+      <li>Porque contigo todo se siente real y sincero</li>
+      <li>Porque me haces querer ser mejor cada día</li>
+      <li>Porque contigo el amor se siente fácil</li>
+    </ul>
+  </div>
+
+  <!-- BELLEZA -->
+  <div class="section" id="beauty">
+    <h2>Por qué eres la mujer más bella del mundo</h2>
+    <ul>
+      <li>Porque tu belleza va mucho más allá de lo físico</li>
+      <li>Porque tu mirada dice todo sin palabras</li>
+      <li>Porque tu forma de ser te hace única</li>
+      <li>Porque cuando sonríes, el mundo se detiene</li>
+      <li>Porque no hay nadie como tú</li>
+    </ul>
+  </div>
+
+  <!-- TEMPORIZADOR -->
+  <div class="section" id="countdownSection">
+    <h2>Cuenta regresiva 💘</h2>
+    <div class="countdown" id="countdown"></div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="section" id="final">
+    ✨ Todo esto es solo el comienzo ✨<br><br>
+    <strong>— Juan Acevedo ❤️</strong>
+  </div>
+</div>
+
+<!-- Música -->
+<audio id="music" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c8d8bb8a1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const question = document.getElementById("question");
+const buttons = document.getElementById("buttons");
+const music = document.getElementById("music");
+
+const sections = [
+  document.getElementById("message"),
+  document.getElementById("reasons"),
+  document.getElementById("beauty"),
+  document.getElementById("countdownSection"),
+  document.getElementById("final")
+];
+
+// NO imposible (PC + móvil)
+function moveNo() {
+  const rect = document.getElementById("card").getBoundingClientRect();
+  noBtn.style.left = Math.random() * (rect.width - noBtn.offsetWidth) + "px";
+  noBtn.style.top = Math.random() * (rect.height - noBtn.offsetHeight) + "px";
+}
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+// Al decir SÍ
+yesBtn.addEventListener("click", () => {
+  question.style.display = "none";
+  buttons.style.display = "none";
+  music.play();
+  startHearts();
+  doubleKiss();
+  showSections();
+});
+
+// Mostrar secciones una por una
+function showSections() {
+  let delay = 0;
+  sections.forEach(sec => {
+    setTimeout(() => {
+      sec.style.display = "block";
+      sec.style.opacity = "1";
+    }, delay);
+    delay += 2500;
+  });
+}
+
+// Corazones
+function startHearts() {
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = Math.random() * 20 + 20 + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 300);
+}
+
+// Besos
+function doubleKiss() {
+  for (let i = 0; i < 2; i++) {
+    setTimeout(() => {
+      const k = document.createElement("div");
+      k.className = "kiss";
+      k.innerHTML = "💋";
+      k.style.left = "50%";
+      k.style.top = "50%";
+      k.style.transform = "translate(-50%, -50%)";
+      document.body.appendChild(k);
+      setTimeout(() => k.remove(), 2500);
+    }, i * 600);
+  }
+}
+
+// TEMPORIZADOR AL 14 DE FEBRERO 2026
+const countdownEl = document.getElementById("countdown");
+const targetDate = new Date("February 14, 2026 00:00:00").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = targetDate - now;
+
+  if (diff <= 0) {
+    countdownEl.innerHTML = "¡Feliz San Valentín 2026! 💖";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  countdownEl.innerHTML =
+    `${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos<br>
+     para el 14 de febrero de 2026 💘`;
+}, 1000);
+</script>
+
+</body>
+</html>
